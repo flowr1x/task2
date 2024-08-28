@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* ============Config================ */
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+
+        input,
+        button,
+        textarea {
+            font-family: inherit;
+        }
+
+        input::-ms-clear {
+            display: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        html,
+        body {
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            height: 100%;
+            width: 100%;
+            line-height: 1;
+            background-color: #ccc;
+        }
+
+        /* ============Base================ */
+        body {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form {
+            border: 1px solid #000;
+            padding: 37px 25px 28px;
+            width: 425px;
+            background-color: #fff;
+            border-radius: 3px;
+            position: relative;
+        }
+
+
+
+        input:invalid:not(:placeholder-shown) {
+            border-color: red;
+        }
+
+        legend {
+            font-weight: 600;
+            letter-spacing: 0.06em;
+        }
+
+        .form__field legend:not(:last-child) {
+            margin: 0 0 20px 0;
+        }
+
+        .form__field:not(:last-child) {
+            margin: 0 0 30px 0;
+        }
+
+        .form__control {
+            font-size: 0.75rem;
+            letter-spacing: 0.03em;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form__control label {
+            margin: 0 0 10px 0;
+        }
+
+        .form__control input {
+            border: 1px solid #000;
+            padding: 15px 10px;
+            border-radius: 3px;
+        }
+
+        .form__control input::placeholder {
+            font-size: 0.75rem;
+        }
+
+        .form__control:not(:last-child) {
+            margin-bottom: 15px;
+        }
+
+        .form__block {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form__block input {
+            flex: 0 1 50%;
+            width: 100%;
+        }
+
+        .form__buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form__btn {
+            position: relative;
+            top: 0;
+            background-color: transparent;
+            border: 1px solid #000;
+            border-radius: 7px;
+            padding: 15px 32px;
+            display: inline-block;
+            letter-spacing: 0.03em;
+            font-size: 0.75rem;
+            box-shadow: 0px 2px 0px #000;
+            transition: all 0.3s;
+        }
+
+        .form__btn:hover {
+            top: 2px;
+            background: #000;
+            color: #fff;
+            box-shadow: 0px 0px 0px #000;
+        }
+
+        .form__close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+        }
+
+        .form__close::after,
+        .form__close::before {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: #333;
+        }
+
+        .form__close::before {
+            top: 50%;
+            transform: rotate(-45deg) translate(0, -70%);
+        }
+
+        .form__close::after {
+            bottom: 50%;
+            transform: rotate(45deg) translate(0, 50%);
+        }
+        .form__sumbit-success {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 40px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+        .form__sumbit-success.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+    </style>
+    <script src="https://unpkg.com/imask"></script>
+</head>
+
+<body>
+    <form action="#" class="form" method="get">
+        <fieldset class="form__field">
+            <legend>Транспортные средства и водители</legend>
+            <div class="form__control">
+                <label for="form-number">Гос-номер</label>
+                <input type="text" id="form-number" name="form-number" placeholder="Укажите гос-номер" required="true" class="number" pattern="[А-Яа-я]\d{3}[А-Яа-я]{2} \d{3}">
+            </div>
+            <div class="form__control">
+                <label for="form-transport">Транспортное средство</label>
+                <input type="text" id="form-transport" placeholder="Транспортное средство" name="form-transport"
+                    required="true">
+            </div>
+            <div class="form__control">
+                <label for="form-date">Ориентировочная дата прибытия к покупателю</label>
+                <input type="text" id="form-date" placeholder="Дата*" name="form-date" required="true" class="date" pattern="^\d{2}\.\d{2}\.\d{4}$">
+            </div>
+        </fieldset>
+        <fieldset class="form__field">
+            <legend>Данные о водителе</legend>
+            <div class="form__control">
+                <label for="form-name">ФИО</label>
+                <input type="text" id="form-name" placeholder="Укажите ФИО водителя" name="form-name" required="true">
+            </div>
+            <div class="form__control">
+                <label for="form-passport-series">Паспортные данные</label>
+                <div class="form__block">
+                    <input type="text" id="form-passport-series" placeholder="Серия" name="form-passport-series"
+                        required="true" class="passport-seria" pattern="\d{4}">
+                    <input type="text" id="form-passport-number" placeholder="Номер" name="form-passport-number"
+                        required="true" class="passport-number" pattern="\d{6}">
+                </div>
+            </div>
+            <div class="form__control">
+                <label for="form-where">Кем выдан</label>
+                <input type="text" id="form-where" placeholder="Кем выдан" name="form-where" required="true">
+            </div>
+            <div class="form__control">
+                <label for="form-when">Когда выдан</label>
+                <input type="text" id="form-when" placeholder="Когда выдан" name="form-when" required="true">
+            </div>
+        </fieldset>
+        <div class="form__buttons">
+            <button class="form__btn" type="submit">Отправить</button>
+            <button class="form__btn" type="reset">Отменить</button>
+        </div>
+        <div class="form__close"></div>
+        <p class="form__sumbit-success">Thanks!!!</p>
+    </form>
+    <script>
+        const elementsIMask = {
+            '.number': { mask: 'a000aa 000',  prepareChar: str => str.toUpperCase()},
+            '.date': {
+                mask: Date,
+            },
+            '.passport-seria': {mask: '0000'},
+            '.passport-number':{mask: '000000'},
+        }
+        
+        for (const i in elementsIMask) {
+            const query = document.querySelectorAll(i);
+            query.forEach(el => IMask(el, elementsIMask[i]));
+        }
+
+        const form = document.querySelector('form')
+        const message = form.querySelector('.form__sumbit-success');
+
+        form.addEventListener('submit', e => {
+            message.classList.add('active');
+        });
+    </script>
+</body>
+
+</html>
